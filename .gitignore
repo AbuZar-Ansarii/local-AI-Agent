@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Memory Data
+memory_data/
+*.xml
+
+# OS
+.DS_Store
+Thumbs.db

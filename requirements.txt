@@ -1,0 +1,18 @@
+# Telegram Bot
+python-telegram-bot==21.0.1
+# LangChain & LangGraph
+langchain==0.1.16
+langchain-community==0.0.33
+langchain-core==0.1.44
+langchain-experimental==0.0.57
+langgraph==0.0.38
+# Chroma DB
+chromadb==0.4.24
+# LLM & Embeddings
+ollama==0.1.8
+# Voice Processing
+faster-whisper==1.0.1
+# Utilities
+python-dotenv==1.0.1
+requests==2.31.0
+colorlog==6.8.2
