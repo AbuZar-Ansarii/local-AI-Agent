@@ -1,27 +1,100 @@
 # Android Local AI Agent
 
-A completely local AI agent running on Android via Termux, controllable through Telegram.
+A production-grade, fully local AI agent that runs on Android through **Termux** and is controlled remotely via **Telegram**. This agent utilizes local LLMs (Ollama), supports long-term memory (ChromaDB), and performs privileged Android operations using **Shizuku**.
 
-## Features
+---
 
-- **Local Execution:** Uses Ollama to run models (gemma3, qwen3, llama3) locally on your Android device.
-- **Remote Control:** Securely control your device via Telegram.
-- **Android Tools:** Control WiFi, Bluetooth, Screen Brightness, Notifications, Media, and Apps.
-- **Shizuku Integration:** Perform privileged tasks using Shizuku.
-- **Voice Interaction:** STT via Faster-Whisper and TTS via Piper.
-- **Long-Term Memory:** ChromaDB stores user preferences and contexts.
+## 📂 Project Structure
 
-## Setup Instructions
+```text
+android_local_agent/
+├── agent/               # The "Brain" of the Agent
+│   ├── graph.py         # LangGraph workflow and orchestration logic
+│   ├── tools.py         # Definitions of tools (Apps, WiFi, Memory, etc.)
+│   ├── memory.py        # Short-term conversation history management
+│   ├── prompts.py       # System instructions for the LLM
+│   └── state.py         # Type definitions for the agent's cognitive state
+├── android/             # Android Control Layer
+│   ├── termux_api.py    # Interface for battery, notifications, and hardware
+│   ├── shizuku.py       # Privileged ADB command execution bridge
+│   ├── intents.py       # App launching and activity management
+│   └── accessibility.py # UI interaction and automation skeleton
+├── telegram/            # Remote Interface Layer
+│   ├── bot.py           # Telegram bot initialization and polling setup
+│   └── handlers.py      # Logic for messages, commands, and media
+├── memory/              # Long-Term Memory Layer
+│   └── chroma_db.py     # Local vector database for user preferences
+├── config/              # Configuration Management
+│   └── settings.py      # Global settings and environment variable parsing
+├── docs/                # Project documentation and architecture plans
+├── tests/               # Unit tests for tools and logic
+├── main.py              # Application entry point
+├── install.sh           # Interactive setup script for Termux
+├── start.sh             # Execution script to launch the bot and Ollama
+├── requirements.txt     # Python dependencies
+└── README.md            # User guide and documentation
+```
 
-1. Install Termux and Termux:API from F-Droid.
-2. Install Shizuku and start it (via adb or wireless debugging).
-3. Clone this repository in Termux.
-4. Run `./install.sh`.
-5. Create a Telegram bot using BotFather and get your bot token.
-6. Get your Telegram User ID (e.g., from userinfobot).
-7. Create a `.env` file:
-   ```env
-   TELEGRAM_BOT_TOKEN=your_token
-   ALLOWED_USER_IDS=123456789
-   ```
-8. Run `./start.sh`.
+---
+
+## 🚀 Step-by-Step Guide
+
+### 1. Prerequisites (On Android)
+*   **Termux:** Install from [F-Droid](https://f-droid.org/en/packages/com.termux/).
+*   **Termux:API:** Install from [F-Droid](https://f-droid.org/en/packages/com.termux.api/).
+*   **Shizuku:** Install from Play Store or GitHub. Start it using Wireless Debugging or ADB.
+
+### 2. Prepare the Environment
+Open Termux and run the following commands:
+```bash
+# Allow storage access
+termux-setup-storage
+
+# Clone the repository
+git clone https://github.com/AbuZar-Ansarii/local-AI-Agent.git
+cd local-AI-Agent/android_local_agent
+```
+
+### 3. Interactive Installation
+Run the installer. It will update system packages, install Python, Ollama, and set up your configuration.
+```bash
+chmod +x install.sh start.sh
+./install.sh
+```
+**During installation, the script will ask for:**
+1.  **Telegram Bot Token:** Create one via [@BotFather](https://t.me/botfather).
+2.  **Telegram User ID:** Get yours from [@userinfobot](https://t.me/userinfobot). This ensures only *you* can control your phone.
+
+### 4. Start the Agent
+Ensure Shizuku is running, then start the agent:
+```bash
+./start.sh
+```
+
+### 5. Using the Agent via Telegram
+Open your bot on Telegram and start chatting!
+
+**Example Commands:**
+*   *"Open YouTube and search for Lo-fi music"*
+*   *"What is my battery percentage?"*
+*   *"Turn off the WiFi"*
+*   *"Set screen brightness to 50%"*
+*   *"Take a screenshot"* (requires `/screenshot` command or natural language)
+*   *"Remember that I like Dark Mode"* (Saves to long-term memory)
+
+---
+
+## 🛠 Features in Detail
+
+*   **Autonomous Planning:** Uses LangGraph to plan multi-step tasks (e.g., search web -> open app -> perform action).
+*   **Secure Access:** Whitelist-based security ensures only your Telegram ID has control.
+*   **Privileged Control:** Uses Shizuku to execute ADB-level commands without requiring a rooted device.
+*   **Local-First:** All processing (LLM, Embeddings, Database) happens on your device. No data leaves your phone except for Telegram communication.
+
+---
+
+## 🤝 Contributing
+Contributions are welcome! Please follow the existing code style and provide tests for new features.
+
+## 📜 License
+MIT License.
