@@ -98,3 +98,58 @@ Contributions are welcome! Please follow the existing code style and provide tes
 
 ## 📜 License
 MIT License.
+
+# ********************************************************************************************************************
+
+```
+pkg update && pkg upgrade -y
+pkg install proot-distro -y
+```
+```
+proot-distro install debian
+proot-distro login debian
+```
+```
+apt update && apt upgrade -y
+apt install git python3 python3-pip python3-venv libglib2.0-0 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2 -y
+```
+```
+git clone https://github.com/FoundationAgents/OpenManus.git
+cd OpenManus
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+```
+playwright install chromium
+```
+## Method B
+
+```
+pkg update && pkg upgrade -y
+pkg install git python python-pip clang make libjpeg-turbo -y
+```
+
+```
+git clone https://github.com/FoundationAgents/OpenManus.git
+cd OpenManus
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+```
+cp config/config.example.toml config/config.toml
+nano config/config.toml
+```
+### LLm config
+```
+[llm]
+model = "gemini-2.5-flash"
+api_key = "YOUR_GEMINI_API_KEY"
+base_url = "https://generativelanguage.googleapis.com/v1beta"
+```
+```
+python run.py
+```
